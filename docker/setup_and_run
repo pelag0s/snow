@@ -1,0 +1,9 @@
+#!/bin/sh
+mktun snow0 snow
+ip addr add dev snow0 172.16.0.1/255.240.0.0
+ip link set snow0 mtu 1419 up
+
+iptables -I INPUT -s 172.16.0.0/12 ! -i snow0 -j DROP
+iptables -I INPUT -s 172.16.0.1 -i lo -j ACCEPT
+
+su snow -c "authbind /usr/sbin/snowd"
