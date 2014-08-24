@@ -35,6 +35,9 @@ RUN touch /etc/authbind/byport/8 && chown snow /etc/authbind/byport/8 && chmod u
 # Adjust nsswitch config
 RUN sed -i "s/^hosts.\+$/hosts: files snow dns/" /etc/nsswitch.conf
 
+RUN echo NATPOOL_NETWORK=10.144.0.0 >/etc/snow/snow.conf && \
+    echo NATPOOL_NETMASK_BITS=12 >>/etc/snow/snow.conf
+
 # Add run script
 WORKDIR /home/snow
 ADD docker/setup_and_run /usr/local/bin/setup_and_run
